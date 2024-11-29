@@ -13,6 +13,7 @@ import ToastService from 'primevue/toastservice';
 // import store from './store/index';
 import 'primeicons/primeicons.css';
 import ConfirmationService from 'primevue/confirmationservice';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -38,7 +39,15 @@ createInertiaApp({
             .use(ToastService)
             .use(ConfirmationService)
             .component('Link', Link)
+            .component('AuthenticatedLayout', AuthenticatedLayout)
             .component('Head', Head)
+            .mixin({
+                methods: {
+                    can(permission) {
+                        return this.$page.props.auth.permissions.includes(permission);
+                    },
+                },
+            })
             .mount(el);
     },
     progress: {
